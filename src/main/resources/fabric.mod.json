@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "thorstatue",
+  "version": "${version}",
+  "name": "Thor Statue Cutscene",
+  "description": "Right-click the Thor statue to kneel and trigger a cinematic constellation cutscene.",
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.thorstatue.ThorStatueMod"],
+    "client": ["dev.thorstatue.client.ThorStatueClient"]
+  },
+  "mixins": [
+    { "config": "thorstatue.client.mixins.json", "environment": "client" }
+  ],
+  "depends": {
+    "fabricloader": ">=0.19",
+    "fabric-api": ">=0.160.5+26.3",
+    "geckolib": ">=5.5.7",
+    "minecraft": ">=26.3",
+    "java": ">=25"
+  }
+}
