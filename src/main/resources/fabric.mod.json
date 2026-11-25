@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "thorstatue",
-  "version": "${version}",
+  "version": "1.0.0",
   "name": "Thor Statue Cutscene",
   "description": "Right-click the Thor statue to kneel and trigger a cinematic constellation cutscene.",
   "license": "MIT",

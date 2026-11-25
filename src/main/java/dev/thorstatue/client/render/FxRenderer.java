@@ -39,7 +39,7 @@ public final class FxRenderer {
     // modes (vertex red channel, 0..255)
     private static final int M_TINT = 0, M_DOME = 1, M_SEA = 2, M_PUFF = 3, M_LINE = 4, M_STAR = 5, M_BOLT = 6, M_FILL = 7;
 
-    public static final RenderPipeline FX_ALPHA = RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
+    public static final RenderPipeline FX_ALPHA = RenderPipelines.register(RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
         .withLocation(ThorStatueMod.id("pipeline/cutscene_fx_alpha"))
         .withVertexShader(ThorStatueMod.id("core/cutscene_fx"))
         .withFragmentShader(ThorStatueMod.id("core/cutscene_fx"))
@@ -48,9 +48,9 @@ public final class FxRenderer {
         .withCull(false)
         .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
         .withDepthStencilState(new DepthStencilState(CompareOp.GREATER_THAN_OR_EQUAL, false))
-        .build();
+        .build());
 
-    public static final RenderPipeline FX_ADD = RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
+    public static final RenderPipeline FX_ADD = RenderPipelines.register(RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
         .withLocation(ThorStatueMod.id("pipeline/cutscene_fx_add"))
         .withVertexShader(ThorStatueMod.id("core/cutscene_fx"))
         .withFragmentShader(ThorStatueMod.id("core/cutscene_fx"))
@@ -59,9 +59,16 @@ public final class FxRenderer {
         .withCull(false)
         .withColorTargetState(new ColorTargetState(BlendFunction.LIGHTNING))
         .withDepthStencilState(new DepthStencilState(CompareOp.GREATER_THAN_OR_EQUAL, false))
-        .build();
+        .build());
 
     private FxRenderer() {}
+
+    /**
+     * Touching this class registers the pipelines. It MUST run during client init, before the first resource
+     * reload: only registered pipelines are compiled with the mod's shader files; anything else falls back to a
+     * vanilla-only cache and fails with "Failed to find or load pipeline".
+     */
+    public static void init() {}
 
     // ---------------------------------------------------------------- mesh helpers
     private static final class Mesh {

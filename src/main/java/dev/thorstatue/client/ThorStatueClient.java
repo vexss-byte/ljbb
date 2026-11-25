@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionResult;
 public class ThorStatueClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        dev.thorstatue.client.render.FxRenderer.init(); // registers shader pipelines before resources load
         BlockEntityRenderers.register(ThorStatueMod.THOR_STATUE_BE, ThorStatueRenderer::new);
 
         ClientPlayNetworking.registerGlobalReceiver(StartCutscenePayload.TYPE, (payload, context) ->

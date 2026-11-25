@@ -1,12 +1,31 @@
-#version 330
+#version 450
 
-#moj_import <minecraft:globals.glsl>
+layout(std140) uniform Globals {
+    ivec3 CameraBlockPos;
+    float GlintAlpha;
+    vec3 CameraOffset;
+    float GameTime;      // fraction of a 24000 tick day
+    vec2 ScreenSize;
+    int MenuBlurRadius;
+    int UseRgss;
+};
 
-in vec2 texCoord0;
-in vec4 vertexColor;
-in vec3 localPos;
+// Declared so the pipeline's Fog bind group is always present in the shader (it is bound by default).
+layout(std140) uniform Fog {
+    vec4 FogColor;
+    float EnvironmentalStart;
+    float EnvironmentalEnd;
+    float RenderDistanceStart;
+    float RenderDistanceEnd;
+    float SkyEnd;
+    float CloudEnd;
+};
 
-out vec4 fragColor;
+layout(location = 0) in vec2 texCoord0;
+layout(location = 1) in vec4 vertexColor;
+layout(location = 2) in vec3 localPos;
+
+layout(location = 0) out vec4 fragColor;
 
 // ---- value-noise FBM (clouds) -----------------------------------------------------------
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
@@ -75,5 +94,5 @@ void main() {
     }
 
     if (outc.a <= 0.003) discard;
-    fragColor = outc;
+    fragColor = outc + vec4(0.0, 0.0, 0.0, FogColor.a * 0.0 + EnvironmentalEnd * 0.0);
 }
